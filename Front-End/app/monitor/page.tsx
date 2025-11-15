@@ -29,13 +29,13 @@ export default function MonitorPage() {
     { loketNumber: '4', currentQueue: null },
   ]);
   const [featuredLoket, setFeaturedLoket] = useState<LoketData | null>(null);
-  const [lastCalledQueue, setLastCalledQueue] = useState<string>(''); // Track last called queue
   const [isSoundEnabled, setIsSoundEnabled] = useState(true); // Sound toggle
   const [isSpeaking, setIsSpeaking] = useState(false); // Speaking indicator
   
   const wsRefs = useRef<WebSocket[]>([]);
   const ttsQueueRef = useRef<Array<{queueNumber: string, loketNumber: string}>>([]);
   const isProcessingRef = useRef(false);
+  const lastCalledQueueRef = useRef<string>(''); // Use ref instead of state
 
   // Process TTS queue one by one
   const processTTSQueue = () => {
@@ -167,8 +167,8 @@ export default function MonitorPage() {
                 const queueKey = `${calledPatient.queueNumber}-${loketNumber}`;
                 
                 // Only speak if this is a new call (not initial load or same queue)
-                if (data.type === 'update' && lastCalledQueue !== queueKey) {
-                  setLastCalledQueue(queueKey);
+                if (data.type === 'update' && lastCalledQueueRef.current !== queueKey) {
+                  lastCalledQueueRef.current = queueKey;
                   
                   // Add to TTS queue (will wait if another is speaking)
                   speakQueueNumber(calledPatient.queueNumber, loketNumber);
@@ -348,13 +348,13 @@ export default function MonitorPage() {
       </main>
 
       {/* Footer Marquee */}
-      <footer className="bg-linear-to-r from-blue-600 to-blue-500 py-3 overflow-hidden mt-auto">
+      {/* <footer className="bg-linear-to-r from-blue-600 to-blue-500 py-3 overflow-hidden mt-auto">
         <div className="animate-marquee whitespace-nowrap">
           <span className="text-lg font-bold text-white inline-block px-4 drop-shadow">
             🏥 Selamat datang di Rumah Sakit Umum 
           </span>
         </div>
-      </footer>
+      </footer> */}
 
       <style jsx>{`
         @keyframes marquee {
