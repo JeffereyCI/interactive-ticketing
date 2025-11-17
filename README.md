@@ -1,4 +1,3 @@
-# interactive-ticketing
 # 🎫 Interactive Ticketing (Sistem Antrian Interaktif Rumah Sakit)
 
 Proyek ini adalah implementasi sistem antrian rumah sakit modern, dirancang untuk memfasilitasi pendaftaran pasien, manajemen antrian oleh staf, dan tampilan monitor real-time, menggunakan arsitektur *microservice-like* dengan backend Go dan frontend Next.js/React.
